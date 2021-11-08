@@ -1,0 +1,9 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+Test page . Check out console
+<script>
+  var socket = io();
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('customevent', { my: 'data' });
+  });
+</script>
