@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Ashish Mishra",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1013.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "socket.io": "^2.4.1",
+    "x-xss-protection": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

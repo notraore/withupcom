@@ -21,10 +21,12 @@ const manangeInstanceId = (action = "START", instanceId, clb) => {
 				params.DryRun = false;
 				ec2.startInstances(params, function (err, data) {
 					if (err) {
-						console.log("Error", err);
+						console.log("Error	", err);
 					} else if (data) {
 						// console.log("Success", data.StartingInstances);
-						if (clb) clb(data);
+						if (clb) {
+							clb(data);
+						}
 					}
 				});
 			} else {
