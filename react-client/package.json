@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-sdk": "^2.1023.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "socket.io-client": "^2.4.0"
@@ -28,5 +29,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode=development --port=4000 --inline --hot",
     "build": "webpack --mode=production"
-  }
+  },
+  "main": "ec2_startstopinstances.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
