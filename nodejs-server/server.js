@@ -8,6 +8,7 @@ app.use(cors());
 const { exec } = require("child_process");
 
 const { manangeInstanceId } = require("./ec2_startstopinstances.js");
+const { stderr } = require("process");
 
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
@@ -23,29 +24,41 @@ server.listen(port, () =>
 io.on("connection", function (socket) {
 	const previousCode = null;
 	console.log("a user is connected");
-	const inter = setInterval(() => {
-		getInstances(inter);
-	}, 1000);
-	console.log(AllID + "NOBILA");
-	// const interval = setInterval(() => {
-	// checkStatus(socket, interval);
-	// }, 5000);
+	getInstances((returnValue) => {
+		AllID = JSON.parse(returnValue);
+		// console.log(AllID);
+		compareIDArray();
+	});
+	const interval = setInterval(() => {
+		checkStatus(socket, interval);
+	}, 5000);
 });
 
 const compareIDArray = () => {
+	var currentIndex = 0;
 	if (usedID.length == 0) {
-		usedID.push(AllID[0]);
-		ID = usedID[0];
-		console.log(ID + " ID");
+		usedID.push(AllID[currentIndex]);
+		console.log("length EGAL 0 : " + usedID.length + usedID[0]);
+		ID = AllID[currentIndex];
+		console.log("ID = " + ID);
 	} else if (usedID.length != 0) {
 		for (var i = 0; i < AllID.length; i++) {
-			var test = usedID.indexOf(AllID[i]);
-			console.log(test);
+			if (usedID.indexOf(AllID[i]) == -1) {
+				usedID.push(AllID[i]);
+				ID = AllID[i];
+				console.log(
+					" length DIFF 0 : " + AllID[i] + "HAS BEEN ADDED TO USEDIS"
+				);
+				console.log("ID = " + ID);
+				break;
+			} else {
+				console.log(AllID[i] + " : already exist in the array");
+			}
 		}
 	}
 };
 
-const getInstances = (inter) => {
+const getInstances = (callback) => {
 	exec(
 		`aws ec2 describe-instances --filters "Name=instance-type,Values=g4dn.4xlarge" --query "Reservations[].Instances[].InstanceId"`,
 		(error, stdout, stderr) => {
@@ -57,14 +70,7 @@ const getInstances = (inter) => {
 				console.log(`stderr: ${stderr}`);
 				return;
 			}
-			// console.log(JSON.parse(stdout));
-			AllID = JSON.parse(stdout);
-			if (AllID.length != 0) {
-				clearInterval(inter);
-				console.log(AllID.length);
-				compareIDArray();
-			}
-			// console.log(AllID);
+			callback(stdout);
 		}
 	);
 };
