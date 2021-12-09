@@ -26,7 +26,6 @@ io.on("connection", function (socket) {
 	console.log("a user is connected");
 	getInstances((returnValue) => {
 		AllID = JSON.parse(returnValue);
-		// console.log(AllID);
 		compareIDArray();
 	});
 	const interval = setInterval(() => {
@@ -88,13 +87,16 @@ const checkStatus = (socket, interval) => {
 					console.log(`stderr: ${stderr}`);
 					return;
 				}
-				console.log(stdout);
-				console.log(data.StartingInstances[0].CurrentState.Code);
+				console.log(stdout + "CheckStatus\n");
+				console.log(
+					data.StartingInstances[0].CurrentState.Code + "Code\n"
+				);
 
 				if (data.StartingInstances[0].CurrentState.Code == 16) {
 					clearInterval(interval);
 					console.log("timing...");
 					setTimeout(() => {
+						clearInterval(interval);
 						socket.emit("ip", stdout);
 					}, 8000);
 				}
