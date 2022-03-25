@@ -59,7 +59,7 @@ const compareIDArray = () => {
 
 const getInstances = (callback) => {
 	exec(
-		`aws ec2 describe-instances --filters "Name=instance-type,Values=g4dn.4xlarge" --query "Reservations[].Instances[].InstanceId"`,
+		`aws ec2 describe-instances --filters "Name=instance-type,Values=g4dn.xlarge" --query "Reservations[].Instances[].InstanceId"`,
 		(error, stdout, stderr) => {
 			if (error) {
 				console.log(`error: ${error.message}`);
